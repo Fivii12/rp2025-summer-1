@@ -1,68 +1,45 @@
+using System;
+using System.Collections.Generic;
 using StringLib;
+using Xunit;
 
-namespace StringLib.Tests;
-
-public class TextUtilTest
+namespace StringLib.Tests
 {
-    [Theory]
-    [MemberData(nameof(SplitIntoWordParams))]
-    public void Can_split_into_words(string input, string[] expected)
+    public class TextUtilTest
     {
-        List<string> result = TextUtil.SplitIntoWords(input);
-        Assert.Equal(expected, result);
-    }
-
-    public static TheoryData<string, string[]> SplitIntoWordParams()
-    {
-        return new TheoryData<string, string[]>
+        [Theory]
+        [MemberData(nameof(CountConsonantsParams))]
+        public void Can_count_consonants(string input, int expected)
         {
-            // Апостроф считается частью слова
-            { "Can't do that", ["Can't", "do", "that"] },
+            int result = TextUtil.CountConsonants(input);
+            Assert.Equal(expected, result);
+        }
 
-            // Буква "Ё" считается частью слова
-            { "Ёжик в тумане", ["Ёжик", "в", "тумане"] },
-            { "Уж замуж невтерпёж", ["Уж", "замуж", "невтерпёж"] },
-
-            // Дефис в середине считается частью слова
-            { "Что-нибудь хорошее", ["Что-нибудь", "хорошее"] },
-            { "mother-in-law's", ["mother-in-law's"] },
-            { "up-to-date", ["up-to-date"] },
-            { "Привет-пока", ["Привет-пока"] },
-
-            // Слова из одной буквы допускаются
-            { "Ну и о чём речь?", ["Ну", "и", "о", "чём", "речь"] },
-
-            // Смена регистра не мешает разделению на слова
-            { "HeLLo WoRLd", ["HeLLo", "WoRLd"] },
-            { "UpperCamelCase or lowerCamelCase?", ["UpperCamelCase", "or", "lowerCamelCase"] },
-
-            // Цифры не считаются частью слова
-            { "word123", ["word"] },
-            { "123word", ["word"] },
-            { "word123abc", ["word", "abc"] },
-
-            // Знаки препинания не считаются частью слова
-            { "C# is awesome", ["C", "is", "awesome"] },
-            { "Hello, мир!", ["Hello", "мир"] },
-            { "Много   пробелов", ["Много", "пробелов"] },
-
-            // Пустые строки, пробелы, знаки препинания
-            { null!, [] },
-            { "", [] },
-            { "   \t\n", [] },
-            { "!@#$%^&*() 12345", [] },
-            { "\"", [] },
-
-            // Пограничные случаи с апострофами и дефисами
-            { "-привет", ["привет"] },
-            { "привет-", ["привет"] },
-            { "'hello", ["hello"] },
-            { "hello'", ["hello"] },
-            { "--привет--", ["привет"] },
-            { "''hello''", ["hello"] },
-            { "'a-b'", ["a-b"] },
-            { "--", [] },
-            { "'", [] },
-        };
+        public static TheoryData<string, int> CountConsonantsParams()
+        {
+            return new TheoryData<string, int>
+            {
+                { "The quick brown fox jumps over the lazy dog", 23 },
+                { "Съешь же ещё этих мягких французских булок, да выпей чаю.", 26 },
+                { "Hello, мир!", 5 },
+                { null!, 0 },
+                { "", 0 },
+                { "   ", 0 },
+                { "12345", 0 },
+                { "@#$%^", 0 },
+                { "аеёиоуыэюя", 0 },
+                { "aeiou", 0 },
+                { "bcdfghjklmnpqrstvwxz", 20 },
+                { "BCDFGHJKLMNPQRSTVWXZ", 20 },
+                { "бвгджзйклмнпрстфхцчшщ", 21 },
+                { "БВГДЖЗЙКЛМНПРСТФХЦЧШЩ", 21 },
+                { "-q-", 1 },
+                { "-й-", 1 },
+                { "i", 0 },
+                { "я", 0 },
+                { "b", 1 },
+                { "б", 1 },
+            };
+        }
     }
 }
