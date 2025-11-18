@@ -2,12 +2,6 @@ namespace GeometryLib;
 
 public readonly struct Point3D
 {
-    public double X { get; }
-
-    public double Y { get; }
-
-    public double Z { get; }
-
     public Point3D(double x, double y, double z)
     {
         X = x;
@@ -15,6 +9,12 @@ public readonly struct Point3D
         Z = z;
     }
 
+    public double X { get; }
+
+    public double Y { get; }
+
+    public double Z { get; }
+    
     /// <summary>
     /// Вычисляет евклидово расстояние до другой точки.
     /// </summary>
