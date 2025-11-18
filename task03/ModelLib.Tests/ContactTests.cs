@@ -29,7 +29,7 @@ namespace ModelLib.Tests
         [MemberData(nameof(InvalidFirstNameData))]
         public void Cannot_create_contact_with_empty_firstname(string? firstName)
         {
-            Assert.Throws<ArgumentException>(() => new Contact(firstName));
+            Assert.Throws<ArgumentException>(() => new Contact(firstName!));
         }
 
         public static TheoryData<string?> InvalidFirstNameData()
@@ -55,11 +55,11 @@ namespace ModelLib.Tests
             }
 
             Assert.Contains(first, contact.PhoneNumbers);
-            if (second != null) 
+            if (second != null)
             {
                 Assert.Contains(second, contact.PhoneNumbers);
             }
-            
+
             Assert.Equal(expectedPrimary, contact.PrimaryPhoneNumber);
         }
 
@@ -94,11 +94,11 @@ namespace ModelLib.Tests
         {
             Contact contact = new Contact("Иван");
             contact.AddPhoneNumber(first);
-            if (second != null) 
+            if (second != null)
             {
                 contact.AddPhoneNumber(second);
             }
-            
+
             contact.RemovePhoneNumber(toRemove);
 
             Assert.Equal(expectedCount, contact.PhoneNumbers.Count);

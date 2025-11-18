@@ -14,7 +14,7 @@ public readonly struct Point3D
     public double Y { get; }
 
     public double Z { get; }
-    
+
     /// <summary>
     /// Вычисляет евклидово расстояние до другой точки.
     /// </summary>
