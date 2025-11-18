@@ -3,7 +3,6 @@ using System.Text.RegularExpressions;
 
 namespace ModelLib;
 
-
 public class PhoneNumber
 {
     private readonly string number;
